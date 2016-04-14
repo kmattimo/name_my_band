@@ -1,0 +1,69 @@
+
+<html> 
+  <head>
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
+  </head>
+  
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif;}
+  </style>
+  
+  <body> 
+    <h2> <span style="display: none" id="the">The </span> <span id="name">NAME OUR BAND</span> </h2>
+  </body> 
+  
+  <script> 
+    function getRandomIntInclusive(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  
+    function capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+    function RandomWord() {
+    var requestStr = "http://randomword.setgetgo.com/get.php";
+
+    $.ajax({
+        type: "GET",
+        url: requestStr,
+        dataType: "jsonp",
+        jsonpCallback: 'RandomWordComplete'
+    });
+  }
+
+  function RandomWordComplete(data) {
+    console.log(data.Word);
+    $('#name').html( makeName(capitalizeFirstLetter(data.Word)));
+  }
+  
+  function makeName(word) {
+    var name = "Tweens";
+    var index = getRandomIntInclusive(1, 3);
+    //ugly af 
+    switch(index) {
+      case 1: 
+        name = word + " Broken Arrow";
+      break;
+      case 2: 
+        name = " Broken " + word + " Arrow ";
+      break;
+      case 3: 
+        name = " Broken Arrow " + word; 
+      break;
+    }
+    return name;
+  }
+        
+  
+  $(function() {
+    setInterval(RandomWord, 6000);
+  });
+  
+  $(function() {
+    setInterval(function() { $('#the').toggle()} , 4000);
+  });
+  
+  </script>
+
+</html>
